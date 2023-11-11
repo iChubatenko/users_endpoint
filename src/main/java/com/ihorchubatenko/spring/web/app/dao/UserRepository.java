@@ -1,4 +1,4 @@
-package com.ihorchubatenko.spring.web.app.entity;
+package com.ihorchubatenko.spring.web.app.dao;
 
 import java.util.List;
 

@@ -1,12 +1,14 @@
 package com.ihorchubatenko.spring.web.app.configuration;
 
-import com.ihorchubatenko.spring.web.app.controller.UsersController;
-import com.ihorchubatenko.spring.web.app.entity.UserRepository;
-import com.ihorchubatenko.spring.web.app.entity.UserRepositoryImpl;
+import com.ihorchubatenko.spring.web.app.dao.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Configuration
 @EnableWebMvc
@@ -14,13 +16,13 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class MyConfiguration {
 
     @Bean
-    public UserRepository userRepository(){
-        return new UserRepositoryImpl();
+    public Map<Long, User> userDatabase() {
+        return new HashMap<>();
     }
 
     @Bean
-    public UsersController myController(UserRepository userRepository){
-        return new UsersController(userRepository);
+    public AtomicLong userIdGenerator() {
+        return new AtomicLong(1);
     }
 
 }

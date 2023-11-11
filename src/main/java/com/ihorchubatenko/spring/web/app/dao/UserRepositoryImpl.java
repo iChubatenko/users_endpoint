@@ -1,18 +1,22 @@
-package com.ihorchubatenko.spring.web.app.entity;
+package com.ihorchubatenko.spring.web.app.dao;
 
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository{
+public class UserRepositoryImpl implements UserRepository {
 
-    private Map<Long, User> userDatabase = new HashMap<>();
-    private AtomicLong userIdGenerator = new AtomicLong(1);
+    Map<Long, User> userDatabase;
+    AtomicLong userIdGenerator;
+
+    public UserRepositoryImpl(Map<Long, User> userDatabase, AtomicLong userIdGenerator) {
+        this.userDatabase = userDatabase;
+        this.userIdGenerator = userIdGenerator;
+    }
 
     @Override
     public User saveUser(User user) {

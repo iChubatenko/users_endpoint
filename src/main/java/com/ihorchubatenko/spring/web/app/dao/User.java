@@ -1,17 +1,20 @@
-package com.ihorchubatenko.spring.web.app.entity;
+package com.ihorchubatenko.spring.web.app.dao;
 
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Objects;
 
 public class User {
     private long id;
     private String name;
     private String surname;
 
-    public User() {
+    public User(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
     }
 
-    public User(String name, String surname) {
+    public User(long id, String name, String surname) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
     }

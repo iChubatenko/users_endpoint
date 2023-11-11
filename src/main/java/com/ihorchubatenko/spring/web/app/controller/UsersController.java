@@ -1,6 +1,6 @@
 package com.ihorchubatenko.spring.web.app.controller;
 
-import com.ihorchubatenko.spring.web.app.entity.*;
+import com.ihorchubatenko.spring.web.app.dao.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
