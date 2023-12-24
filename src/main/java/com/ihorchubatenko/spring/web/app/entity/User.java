@@ -1,12 +1,24 @@
-package com.ihorchubatenko.spring.web.app.dao;
+package com.ihorchubatenko.spring.web.app.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
-import java.util.Objects;
-
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
+    @NotNull
+    @Column(name = "name")
     private String name;
+    @NotNull
+    @Column(name = "surname")
     private String surname;
+
+    public User(){
+    }
 
     public User(String name, String surname) {
         this.name = name;
