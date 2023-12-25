@@ -65,4 +65,10 @@ public class UsersController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<User>> showAllUsersByName(@PathVariable("name") String name) {
+        List<User> users = userService.findByName(name);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 }

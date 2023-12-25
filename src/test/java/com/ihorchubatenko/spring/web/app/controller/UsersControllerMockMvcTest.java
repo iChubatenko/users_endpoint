@@ -1,4 +1,5 @@
 package com.ihorchubatenko.spring.web.app.controller;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ihorchubatenko.spring.web.app.configuration.MyConfiguration;
 import com.ihorchubatenko.spring.web.app.entity.User;
@@ -15,7 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -174,5 +178,26 @@ public class UsersControllerMockMvcTest {
 
         verify(userService, times(1)).getUserById(userId);
         verify(userService, never()).deleteUser(userId);
+    }
+
+    @Test
+    public void showAllUsersById() throws Exception {
+        List<User> expectedUsers = Arrays.asList(
+                new User(1L, "Ihor", "Chubatenko"),
+                new User(2L, "Serhii", "Zapalskii")
+        );
+
+        when(userService.findByName("TestName")).thenReturn(expectedUsers);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/name/{name}", "TestName")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Ihor"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("Serhii"));
+
+        verify(userService, times(1)).findByName("TestName");
     }
 }

@@ -10,5 +10,4 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = "com.ihorchubatenko.spring.web.app")
 @EnableJpaRepositories(basePackages = "com.ihorchubatenko.spring.web.app.dao")
 public class MyConfiguration {
-
 }

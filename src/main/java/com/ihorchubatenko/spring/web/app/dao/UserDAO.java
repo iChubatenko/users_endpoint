@@ -1,12 +1,11 @@
 package com.ihorchubatenko.spring.web.app.dao;
 
 import com.ihorchubatenko.spring.web.app.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.List;
 
-public interface UserDAO {
+public interface UserDAO extends JpaRepository <User, Long> {
 
-    public void saveUser(User user);
-    public User getUserById(long userId);
-    public List<User> getAllUsers();
-    public void deleteUser(long userId);
+    public List<User> findByName(String name);
 }
