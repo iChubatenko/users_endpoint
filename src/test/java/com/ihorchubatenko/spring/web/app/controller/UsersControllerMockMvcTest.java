@@ -181,7 +181,7 @@ public class UsersControllerMockMvcTest {
     }
 
     @Test
-    public void showAllUsersById() throws Exception {
+    public void showAllUsersByName() throws Exception {
         List<User> expectedUsers = Arrays.asList(
                 new User(1L, "Ihor", "Chubatenko"),
                 new User(2L, "Serhii", "Zapalskii")
