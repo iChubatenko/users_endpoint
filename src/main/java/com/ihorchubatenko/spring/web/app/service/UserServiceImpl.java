@@ -2,6 +2,8 @@ package com.ihorchubatenko.spring.web.app.service;
 
 import com.ihorchubatenko.spring.web.app.dao.UserDAO;
 import com.ihorchubatenko.spring.web.app.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -10,12 +12,15 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService{
 
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
     UserDAO userDAO;
 
     @Override
     public User saveUser(User user) {
         userDAO.save(user);
+        logger.debug("Saved to the database: {}", user);
         return user;
     }
 
@@ -26,22 +31,26 @@ public class UserServiceImpl implements UserService{
         if (optional.isPresent()){
             user = optional.get();
         }
+        logger.debug("Taken from the database the user with id={}", userId);
         return user;
     }
 
     @Override
     public List<User> getAllUsers() {
+        logger.debug("Taken from the database list of all users");
         return userDAO.findAll();
     }
 
     @Override
     public void deleteUser(long userId) {
         userDAO.deleteById(userId);
+        logger.debug("Removed from the database the user with id={}", userId);
     }
 
     @Override
     public List<User> findByName(String name) {
         List<User> usersByName = userDAO.findByName(name);
+        logger.debug("Taken from the database list of all users with name: {}", name);
         return usersByName;
     }
 }
