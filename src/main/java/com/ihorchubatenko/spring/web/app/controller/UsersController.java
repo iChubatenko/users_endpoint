@@ -1,5 +1,6 @@
 package com.ihorchubatenko.spring.web.app.controller;
 
+import com.ihorchubatenko.spring.web.app.dao.UserDAO;
 import com.ihorchubatenko.spring.web.app.entity.User;
 import com.ihorchubatenko.spring.web.app.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,6 +21,9 @@ public class UsersController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserDAO userDAO;
 
     @GetMapping
     @Operation(summary = "Getting all users", description = "This endpoint retrieves all users from the database")
@@ -74,8 +78,10 @@ public class UsersController {
         logger.debug("Received PUT request to update user with id: {} {}", userID, existingUser);
 
         if (existingUser != null) {
-            existingUser.setName(updateUser.getName());
-            existingUser.setSurname(updateUser.getSurname());
+            existingUser.setFirstName(updateUser.getFirstName());
+            existingUser.setLastName(updateUser.getLastName());
+            existingUser.setUsername(updateUser.getUsername());
+            existingUser.setPassword(updateUser.getPassword());
 
             User saveUser = userService.saveUser(existingUser);
 
@@ -109,7 +115,7 @@ public class UsersController {
             description = "This endpoint retrieves the user with a search name from the database")
     public ResponseEntity<List<User>> showAllUsersByName(@PathVariable("name") String name) {
         logger.debug("Received GET request to show all users with name: {}", name);
-        List<User> users = userService.findByName(name);
+        List<User> users = userService.findByFirstName(name);
         if (!users.isEmpty()) {
             logger.debug("Users were showed. Details: {}", users);
             return new ResponseEntity<>(users, HttpStatus.OK);
@@ -117,5 +123,13 @@ public class UsersController {
             logger.debug("No users found");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUserDetails(@PathVariable String username){
+
+        User user = userDAO.findByUsername(username);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

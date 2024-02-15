@@ -11,24 +11,28 @@ public class User {
     @Column(name = "id")
     private long id;
     @NotNull
-    @Column(name = "name")
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
     @NotNull
-    @Column(name = "surname")
-    private String surname;
+    @Column(name = "last_name")
+    private String lastName;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "password")
+    private String password;
 
     public User(){
     }
 
-    public User(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
+    public User(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public User(long id, String name, String surname) {
+    public User(long id, String firstName, String lastName) {
         this.id = id;
-        this.name = name;
-        this.surname = surname;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public long getId() {
@@ -39,27 +43,43 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String surname) {
+        this.lastName = surname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
+                "name='" + firstName + '\'' +
+                ", surname='" + lastName + '\'' +
                 '}';
     }
 }

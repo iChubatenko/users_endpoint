@@ -49,8 +49,8 @@ public class UsersControllerMockMvcTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(createdUser.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(createdUser.getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.surname").value(createdUser.getSurname()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(createdUser.getFirstName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.surname").value(createdUser.getLastName()));
 
         verify(userService, times(1)).saveUser(any(User.class));
     }
@@ -187,7 +187,7 @@ public class UsersControllerMockMvcTest {
                 new User(2L, "Serhii", "Zapalskii")
         );
 
-        when(userService.findByName("TestName")).thenReturn(expectedUsers);
+        when(userService.findByFirstName("TestName")).thenReturn(expectedUsers);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/users/name/{name}", "TestName")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -198,6 +198,6 @@ public class UsersControllerMockMvcTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("Serhii"));
 
-        verify(userService, times(1)).findByName("TestName");
+        verify(userService, times(1)).findByFirstName("TestName");
     }
 }
