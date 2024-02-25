@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/users", produces = "application/json")
+@RequestMapping(value = "/api/users", produces = "application/json")
 public class UsersController {
 
     private static final Logger logger = LoggerFactory.getLogger(UsersController.class);
@@ -125,11 +125,18 @@ public class UsersController {
         }
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<User> getUserDetails(@PathVariable String username){
+//    @GetMapping("/{username}")
+//    public ResponseEntity<User> getUserDetails(@PathVariable String username){
+//
+//        User user = userDAO.findByUsername(username);
+//
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+//    }
 
-        User user = userDAO.findByUsername(username);
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<User> registerUser(@RequestBody Registration request){
+//
+//        User savedUser = userService.registerUser(request.getUsername(), request.getPassword());
+//        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+//    }
 }

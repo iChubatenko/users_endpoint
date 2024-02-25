@@ -20,6 +20,9 @@ public class UserServiceImpl implements UserService{
     @Autowired
     UserDAO userDAO;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Override
     public User saveUser(User user) {
         userDAO.save(user);
@@ -66,6 +69,15 @@ public class UserServiceImpl implements UserService{
 //        String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
 //        user.setPassword(encodedPassword);
 //        userDAO.save(user);
+//    }
+//
+//    @Override
+//    public User registerUser(String username, String password) {
+//        User newUser = new User();
+//        newUser.setUsername(username);
+//
+//        newUser.setPassword(passwordEncoder.encode(password));
+//        return userDAO.save(newUser);
 //    }
 
 

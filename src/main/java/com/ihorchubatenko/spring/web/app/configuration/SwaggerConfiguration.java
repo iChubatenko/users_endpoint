@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfiguration {
 
     @Bean
-    public OpenAPI myApiDocumentation(){
+    public OpenAPI myApiDocumentation() {
         return new OpenAPI()
                 .info(new Info()
                         .title("Users API")
