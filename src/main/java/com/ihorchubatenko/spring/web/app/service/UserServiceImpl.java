@@ -1,30 +1,34 @@
 package com.ihorchubatenko.spring.web.app.service;
 
+import com.ihorchubatenko.spring.web.app.dao.RoleDAO;
 import com.ihorchubatenko.spring.web.app.dao.UserDAO;
 import com.ihorchubatenko.spring.web.app.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     UserDAO userDAO;
+    @Autowired
+    RoleDAO roleDAO;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public User saveUser(User user) {
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDAO.save(user);
         logger.debug("Saved to the database: {}", user);
         return user;
@@ -34,7 +38,7 @@ public class UserServiceImpl implements UserService{
     public User getUserById(long userId) {
         User user = null;
         Optional<User> optional = userDAO.findById(userId);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             user = optional.get();
         }
         logger.debug("Taken from the database the user with id={}", userId);
@@ -49,6 +53,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteUser(long userId) {
+        roleDAO.deleteRolesByUserId(userId);
         userDAO.deleteById(userId);
         logger.debug("Removed from the database the user with id={}", userId);
     }
@@ -60,25 +65,14 @@ public class UserServiceImpl implements UserService{
         return usersByName;
     }
 
-//    @Override
-//    public void addUserDetails(User user) {
-//        if(userDAO.findByUsername(user.getUsername()) != null){
-//            throw new RuntimeException("Username already exists");
-//        }
-//
-//        String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
-//        user.setPassword(encodedPassword);
-//        userDAO.save(user);
-//    }
-//
-//    @Override
-//    public User registerUser(String username, String password) {
-//        User newUser = new User();
-//        newUser.setUsername(username);
-//
-//        newUser.setPassword(passwordEncoder.encode(password));
-//        return userDAO.save(newUser);
-//    }
-
-
+    @Override
+    public User findByUsername(String username) {
+        User user = null;
+        Optional<User> optionalUser = userDAO.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+        }
+        logger.debug("Taken from the database the user with username={}", username);
+        return user;
+    }
 }

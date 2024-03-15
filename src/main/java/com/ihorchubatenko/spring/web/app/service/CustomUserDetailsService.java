@@ -22,18 +22,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     public CustomUserDetailsService(UserDAO userDAO) {
-        System.out.println("Constructor starts CustomUserDetailsService");
         this.userDAO = userDAO;
-        System.out.println("Constructor ends CustomUserDetailsService");
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("method loadUserByUsername starts");
         User user = userDAO.findByUsername(username).orElseThrow(() ->
                 new UsernameNotFoundException("Username not found"));
-
-        System.out.println("method loadUserByUsername ends");
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
@@ -41,8 +36,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
-        System.out.println("method mapRolesToAuthorities starts");
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-
     }
 }

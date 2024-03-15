@@ -2,6 +2,7 @@ package com.ihorchubatenko.spring.web.app.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
@@ -36,7 +37,7 @@ public class User {
         this.roles = roles;
     }
 
-    public User(){
+    public User() {
     }
 
     public User(String firstName, String lastName) {
@@ -48,6 +49,15 @@ public class User {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public User(long id, String firstName, String lastName, String username, String password, List<Role> roles) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
     }
 
     public long getId() {
