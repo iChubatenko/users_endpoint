@@ -7,6 +7,7 @@ import com.ihorchubatenko.spring.web.app.entity.User;
 import com.ihorchubatenko.spring.web.app.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@Setter
 @RestController
 @RequestMapping(value = "/api/admin/users", produces = "application/json")
 public class UsersController {
@@ -30,6 +32,10 @@ public class UsersController {
     private RoleDAO roleDAO;
     @Autowired
     private UserDAO userDAO;
+
+    public UsersController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     @Operation(summary = "Getting all users", description = "This endpoint retrieves all users from the database")
@@ -50,11 +56,11 @@ public class UsersController {
     @PostMapping
     @Operation(summary = "Creating new user",
             description = "This endpoint creates and saves a new user in the database by admin request")
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         logger.debug("Received POST request to create new user: {}", user);
 
         if (userDAO.existsByUsername(user.getUsername())) {
-            return new ResponseEntity<>("Username is taken", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(null);
         }
 
         Optional<Role> optionalRole = roleDAO.findByName("ADMIN");

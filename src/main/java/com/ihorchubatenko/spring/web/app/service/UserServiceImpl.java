@@ -3,6 +3,7 @@ package com.ihorchubatenko.spring.web.app.service;
 import com.ihorchubatenko.spring.web.app.dao.RoleDAO;
 import com.ihorchubatenko.spring.web.app.dao.UserDAO;
 import com.ihorchubatenko.spring.web.app.entity.User;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@Setter
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -24,6 +26,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserDAO userDAO, BCryptPasswordEncoder passwordEncoder) {
+        this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public User saveUser(User user) {

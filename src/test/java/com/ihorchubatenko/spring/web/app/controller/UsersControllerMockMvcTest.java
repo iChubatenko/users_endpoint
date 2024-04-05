@@ -13,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -74,7 +73,7 @@ public class UsersControllerMockMvcTest {
 
         when(userService.getAllUsers()).thenReturn(Arrays.asList(user1, user2));
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/users")
+        mockMvc.perform(MockMvcRequestBuilders.get("/users")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1L))
